@@ -1,0 +1,208 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FODF Week Eight</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+</head>
+<body>
+    <div id="title">Week 8: Input Devices</div>
+    <div class="card">
+        <h1>Programming</h1>
+        <p>After trying a couple of different sensors / input devices that didn't work with the ATTiny I settled on using a light sensor.</p>
+        <p>I wrote a program that reads the light sensor and then turns on the LED if it reaches a specific threshold.</p>
+        <p>I needed to use a INPUT_PULLUP to activate the internal resistor of the microcontroller.</p>
+        <p>Below is the code I ended up using.</p>
+        <pre class="prettyprint">lightsensor.ino
+            #define PhC_PIN PB3                       //Define the Photoconductive Cell Pin
+            #define LED_PIN PB2                       //Define the LED Pin
+            int phcellReading;                        //Variable for PhCell Reading
+            
+            #include &lt;SoftwareSerial.h&gt;               //Including the SoftwareSerial library
+            #define RX PB0                            //Defining the MOSI Pin as RX
+            #define TX PB1                            //Defining the MISO Pin as TX
+            SoftwareSerial mySerial(RX, TX);          //Defining the SoftwareSerial Pins (RX, TX)
+            
+            void setup() {  
+                mySerial.begin(2400);                   //Opening the serial, 2400 as data rate
+                pinMode(PhC_PIN, INPUT_PULLUP);         //Setup the internal Pullup
+                pinMode(LED_PIN, OUTPUT);
+            }
+            
+            void loop(){
+                phcellReading = analogRead(PhC_PIN);  //Read the PhCell
+                mySerial.print("Analog reading = ");  
+                mySerial.println(phcellReading);      //Print PhCell
+                if(phcellReading > 120){              //If low brightness
+                digitalWrite(LED_PIN, HIGH);        //Light up LED
+                }else{
+                digitalWrite(LED_PIN, LOW);        //turn off LED
+                }
+                delay(100);                           //wait a bit
+            }                
+        </pre>
+    </div>
+    <div class="card">
+        <h1>Connecting the sensor</h1>
+        <p>I soldered the light sensor on two wires so I can easily hook it up to my board.</p>
+        <p>One end needs to be connected to GND and the other to the pin specified in the code. Here I used the PB3/ADC3</p>
+        <p>After uploading the code using the Arduino <a href="../week7/index.html">(like last week)</a> you can hook up to the FTDI Cable <a href="../week7/index.html">(also like last week)</a>.</p>
+        <p>It looks something like this then:</p>
+        <img src="./img/connection.jpg">
+    </div>
+    <div class="card">
+        <h1>Results</h1>
+        <p>After connecting the FTDI Cable to my computer and using the serial monitor I can now hold my finger over the light sensor to make it read darkness.</p>
+        <p>If the light sensor reads darkness it will turn ON the LED.</p>
+        <p>Serial Monitor shows the analog input of the light sensor.</p>
+        <img src="./img/result.gif">
+    </div>
+    <div class="card">        
+        <h1>Downloads</h1>
+        <a href="./lightsensor/lightsensor.ino" class="centered"><h1><i class="material-icons">cloud_download</i> Download lightsensor.ino</h1></a>
+    </div>
+    <div class="card">
+        <h1>Other Inputs I've tried</h1>
+        <p>I first tried to use a SD card reader, since I wanted to use one in my final project.</p>
+        <p>I've written this program:</p>
+        <pre class="prettyprint">sdCard.ino
+            //Including the librarys
+            #include &lt;SoftwareSerial.h&gt;
+            #include &lt;SD.h&gt;
+            #include &lt;SPI.h&gt;
+
+            //Setting up the SoftwareSerial (RX, TX)
+            //RX turned of because not enough pins
+            SoftwareSerial mySerial(0, PB1);
+
+            //Set Chip Select to pin 
+            #define CS_PIN PB4
+
+            //File Object
+            File myFile;
+
+            void setup() {
+            //File we will read
+            char myFileName[] = "MyFile.txt";
+            //Holder of File content
+            String LineString = ""; 
+            
+            //Opening the SoftwareSerial, 2400 as data rate for ATTiny
+            mySerial.begin(2400);
+            //Wait for SoftwareSerial to open.
+            while (!mySerial) {}
+            
+            //Starting SD Card Setup
+            mySerial.println("Setting up SD card...");
+            mySerial.println();
+            //Setting CS Pin as output
+            pinMode(CS_PIN, OUTPUT);
+            //Check if SD is found
+            if(!SD.begin(CS_PIN)){
+                mySerial.println("SD did not set up...");
+                while(1);
+            }
+            mySerial.println("SD set up!");
+            mySerial.println();
+
+            //Reading the file
+            mySerial.println("Reading MyFile.txt...");
+            mySerial.println();
+            //Open our File
+            myFile = SD.open(myFileName, FILE_READ);
+            //Keep reading
+            while(myFile.available() != 0){
+                LineString = myFile.readStringUntil('\n');
+                mySerial.println(LineString);
+            }
+            myFile.close();
+            mySerial.println();
+            mySerial.println("Done");
+            }
+
+            void loop() {
+                
+            }
+        </pre>
+        <p>Sadly, I couldn't upload this program to my microcontroller, because the microcontroller seems to be incompatible with the SD.h and / or SPI.h</p>
+        <p>Next, I tried a humidity sensor:</p>
+        <pre class="prettyprint">humidity.ino
+            #include &lt;DHT.h&gt;
+            #include &lt;DHT_U.h&gt;
+            
+            //Including the librarys
+            #include &lt;SoftwareSerial.h&gt;
+            
+            //Setting up the SoftwareSerial (RX, TX)
+            //RX turned of because not enough pins
+            SoftwareSerial mySerial(0, PB1);
+            
+            #define DHTPIN PB3
+            #define DHTTYPE DHT11   // DHT 11
+            DHT dht(DHTPIN, DHTTYPE);
+            
+            void setup() {
+                //Opening the SoftwareSerial, 2400 as data rate for ATTiny
+                mySerial.begin(2400);
+                //Wait for SoftwareSerial to open.
+                mySerial.println("DHT:");
+                dht.begin();
+            }
+            
+            void loop() {
+                // Wait a few seconds between measurements.
+                delay(2000);
+            
+                // Reading temperature or humidity takes about 250 milliseconds!
+                // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+                float h = dht.readHumidity();
+                // Read temperature as Celsius (the default)
+                float t = dht.readTemperature();
+                // Read temperature as Fahrenheit (isFahrenheit = true)
+                float f = dht.readTemperature(true);
+            
+                // Check if any reads failed and exit early (to try again).
+                if (isnan(h) || isnan(t) || isnan(f)) {
+                mySerial.println("Failed to read from DHT sensor!");
+                return;
+                }
+            
+                // Compute heat index in Fahrenheit (the default)
+                float hif = dht.computeHeatIndex(f, h);
+                // Compute heat index in Celsius (isFahreheit = false)
+                float hic = dht.computeHeatIndex(t, h, false);
+            
+                mySerial.print("Humidity: ");
+                mySerial.print(h);
+                mySerial.print(" %\t");
+                mySerial.print("Temperature: ");
+                mySerial.print(t);
+                mySerial.print(" *C ");
+                mySerial.print(f);
+                mySerial.print(" *F\t");
+                mySerial.print("Heat index: ");
+                mySerial.print(hic);
+                mySerial.print(" *C ");
+                mySerial.print(hif);
+                mySerial.println(" *F");
+            }
+        </pre>
+        <p>But I got the same compilation error because of incompatible libraries. Thats when I decided to use the light sensor since it doesn't require libraries.</p>
+    </div>
+    <div class="card">        
+        <h1>Downloads</h1>
+        <a href="./sdCard/sdCard.ino" class="centered"><h1><i class="material-icons">cloud_download</i> Download sdCard.ino</h1></a>
+        <a href="./humidity/humidity.ino" class="centered"><h1><i class="material-icons">cloud_download</i> Download humidity.ino</h1></a>
+    </div>
+    <div>
+        <a href="../index.html" id="back"><i class="material-icons">arrow_back</i>back to index</a>
+    </div>
+</body>
+</html>

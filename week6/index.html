@@ -1,0 +1,128 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FODF Week Six</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+</head>
+<body>
+    <div id="title">Week 6: Electronics Design</div>
+    <div class="card">
+        <h1>Adding Components</h1>
+        <p>For this assignment we had to add one LED, one button and one voltage regulator, and multiple VCCs and GNDs to an existing board. I used the Hello Board for my basis.</p>
+        <img src="./img/eagleHello.png">
+        <p>I opened the Hello Board in EAGLE and started by adding the components.</p>
+        <img src="./img/eagleOpenL.png">
+        <p>To add components you first need to import the right libraries. Do that by going to Library > Open library manager.</p>
+        <img src="./img/eagleLM.png">
+        <p>Open the "In Use" tab and click "Browse". Select the folder with the provided files and click open.</p>
+        <img src="./img/eagleLED.png">
+        <p>Adding the LED was really simple. Just had to copy the existing LED and connect it to Microchip. I chose the ADC2 pin.</p>
+        <img src="./img/eagleButton.png">
+        <p>I added a Button (6mm Omron Switch) which is connected to VCC, ADC3 and Ground through a resistor.</p>
+        <img src="./img/eagleVolReg.png">
+        <p>The Voltage regulator is represented by a 3 pin connector (M03) and has one In, one Ground and one Out connector. 
+            In is provided by a 2 pin connector (M02) which will be connected to a battery. Also this needs to be connected to Ground.
+             The Ground pin obviously needs to be connected to ground. At last the Out pin is connected to VCC.</p>
+        <p>Next, we need to change all the 5V to VCC labels so it makes sense.</p>
+        <img src="./img/eagleVCC.png">
+        <p>And for the last step, we copy one ACC/Ground for the assignment.</p>
+        <img src="./img/eagleSchem.png">
+    </div>
+    <div class="card"> 
+        <h1>Board Layout</h1>      
+        <p>To switch to the board view you can press this button.</p>
+        <img src="./img/eagleSwitch.png">
+        <p>After opening the board view you have to arrange the parts in a logical way for and route the connections.</p>
+        <p>This can get very tricky and use a couple of tries. A few tips that help is to work on the pieces one by one and put the parts far apart. You can always make the board more compact later on. Also don't forget to use the ratsnest tool to optimize the paths.</p>
+        <img src="./img/eagleRat.png">
+        <p>After playing around for a good while I finaly had a board that I was happy with.</p>
+        <img src="./img/eagleBoard.png">
+        <p>Now to preparing the files like <a href="../week5/">in the last week</a>.</p>
+        <p>So Export from Eagle, Crop and Edit in Photoshop and get rml file from fabmodules.org.</p>
+        <img src="./img/outsideinside.png">
+        <p>These are the PNG files I made in Photoshop.</p>
+        <p>Then I uploaded these to fabmodules.org to get the files for the mill.</p>
+        <img src="./img/fabInside.png">
+        <p>After showing Mr. Ingrassia the board he said, that a ground layer would save time in the milling.</p>
+        <img src="./img/eagleGNDLayer.png">
+        <p>I added a ground layer and exported the files again.</p>
+    </div>
+    <div class="card">
+        <h1>Milling and Soldering</h1>
+        <p>Milling and Soldering is also just like <a href="../week5/">last week</a>.</p>
+        <img src="./img/milling.gif">
+        <img src="./img/milledBoard.jpg">
+        <p>The board looked like this.</p>
+        <img src="./img/drilling.jpg">
+        <p>Drilling the holes for the pins.</p>
+        <p>Then on to soldering on the microcontroller and the other parts using the EAGLE Board Image as reference.</p>
+        <img src="./img/solderMicro.jpg">
+        <p>And this is how it looked like after finishing the other parts.</p>
+        <img src="./img/solderFin.jpg">        
+    </div>
+    <div class="card">
+        <h1>False Ground Connection</h1>
+        <p>After double checking the connections I noticed a wrong connection. The GND was connected to middle pin of the middle pin array on the board.</p>
+        <p>We took of the microcontroller using a heat gun and saw this.</p>
+        <img src="./img/gndConnection.jpg">
+        <p>This little connection created a jump for the ground to the 3rd pin.</p>
+        <p>Mr. Ingrassia helped me and used a knife to cut the connection. Sadly he cut the connection too far and we had to bridge it using a bit of solder.</p>
+        <img src="./img/solderBrige.jpg">
+        <p>It's far from the prettiest thing but it works, somehow.</p>
+    </div>
+    <div class="card">
+        <h1>Wrong Signature Error</h1>
+        <p>After connecting the Arduino and flashing the ISP software, I connected my board to the Arduino.</p>
+        <img src="./img/arduinoConnection.jpg">
+        <p>After selecting the ATTiny45 and the right settings I tried burning the bootloader.</p>
+        <p>But I got this error:</p>
+        <img src="./img/arduinoError.png">
+        <p>After testing every single connection twice and testing with a different board Mr. Ingrassia came to the conclusion, that the microcontroller has to be broken.</p>
+        <p>I had to solder on a new microcontroller.</p>
+    </div>
+    <div class="card">
+        <h1>Programming</h1>
+        <p>After soldering on a new microcontroller the bootloader finally burned correctly.</p>
+        <p>I used the example blink code but changed a few lines, so both LEDs would light up.</p>
+        <pre class="prettyprint">Blink
+
+            // the setup function runs once when you press reset or power the board
+            void setup() {                                                         
+                // initialize digital pin PB2 and PB4 as an output.                    
+                pinMode(PB2, OUTPUT);                                                  
+                pinMode(PB4, OUTPUT);                                                  
+            }                                                                      
+                                                                                   
+            // the loop function runs over and over again forever                  
+            void loop() {                                                          
+                digitalWrite(PB2, HIGH);   // turn the LED on (HIGH is the voltage level)
+                digitalWrite(PB4, HIGH);   // turn the LED on (HIGH is the voltage level)
+                delay(1000);               // wait for a second                          
+                digitalWrite(PB2, LOW);    // turn the LED off by making the voltage LOW 
+                digitalWrite(PB4, LOW);    // turn the LED off by making the voltage LOW 
+                delay(1000);               // wait for a second                          
+            }
+        </pre>
+        <p>And it works!</p>
+        <img src="./img/blink.gif"> 
+    </div>
+    <div class="card">        
+        <h1>Downloads</h1>
+        <a href="./helloModified.sch" class="centered"><h1><i class="material-icons">cloud_download</i> Download helloModified.sch</h1></a>
+        <a href="./helloModified.brd" class="centered"><h1><i class="material-icons">cloud_download</i> Download helloModified.brd</h1></a>
+        <a href="./inside.rml" class="centered"><h1><i class="material-icons">cloud_download</i> Download inside.rml</h1></a>
+        <a href="./outside.rml" class="centered"><h1><i class="material-icons">cloud_download</i> Download outside.rml</h1></a>
+    </div>
+    <div>
+        <a href="../index.html" id="back"><i class="material-icons">arrow_back</i>back to index</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+Partlist
+
+Exported from helloModified.brd at 21-Nov-18 14:09
+
+EAGLE Version 9.2.2 Copyright (c) 1988-2018 Autodesk, Inc.
+
+Assembly variant: 
+
+Part     Value          Package      Library       Position (mil)        Orientation
+
+001      ATTINY45SI     SOIC8        fab           (970 1240)            R0
+C1       1uF            1206         01_SparkFun   (1145 1600)           R90
+C2       10uF           1206         01_SparkFun   (1280 1600)           R90
+C3       100nF          1206         01_SparkFun   (1010 1600)           R90
+LED      YELLOW         LED1206FAB   fablab        (680 1680)            R180
+LED1     YELLOW         LED1206FAB   fablab        (1820 900)            R90
+M05                     05P          con-amp-quick (1450 1040)           R90
+POWER_1                 02P          con-amp-quick (1445 1640)           R180
+POWER_2                 02P          con-amp-quick (1445 1455)           R180
+POWER_3                 02P          con-amp-quick (1825 1390)           R0
+R1       10K            R1206FAB     fab           (695 1245)            R90
+R2       499            R1206FAB     fablab        (860 1600)            R90
+R3       499            R1206FAB     fablab        (1065 915)            R270
+R4       10K            R1206FAB     fablab        (1685 900)            R90
+RST      M01            1X01_LONGPAD 01_SparkFun   (755 955)             R90
+S1                      6MM_SWITCH   FAB_Hello     (1745 1155)           R180
+SL1                     02P          con-amp-quick (1940 1635)           R180
+SL2                     03P          con-amp-quick (1695 1640)           R180

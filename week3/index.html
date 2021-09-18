@@ -1,0 +1,118 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FODF Week Three</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div id="title">Week 3: Laser Cutting</div>
+    <div class="card">
+        <h1>first 2D Design</h1>
+        <p>This week, we got an introduction into laser cutting. Mr. Ingrassia talked about the technology, the anatomy of a laser cutter, focus and kerf and about different techniques. T laser cutter</p>
+        <p>The assignment for this week is, that we create a 2D Design that can be cut in the laser cutter. It has to feature cuts, engravings and joints.</p>
+        <p>I decided to make a kicker for fingerboarding. A kicker is basically a small ramp that you can use to jump of of.</p>
+        <p>The start was to decide the dimensions and the angle. The length I chose was 20cm with a width of 12 cm and a depth of 6cm.</p>
+        <img src="./img/fusion1.png" alt="Triangle">
+        <p>This is the side of the kicker. Its upside down right now but that doesn't matter.</p>
+        <p>The top piece of the kicker needs to be the same length as the slanted side of the side. To do that, I used Fusion 360s measure tool.</p>
+        <img src="./img/fusionMeasure.png" alt="Measure Tool">
+        <p>It resulted in about 209cm. I made a rectangle with the dimensions 20,9cm and the width of my kicker, so 12cm.</p>
+        <img src="./img/fusion2.png" alt="Top piece">
+        <p>This is the top piece. Next up was the backside of the kicker. Its a 12x6cm piece</p>
+        <img src="./img/fusion3.png" alt="backside">
+        <p>The next step is to figure out how I'm going to assemble the pieces. I added notches to the edges of each piece.</p>
+        <img src="./img/fusionNotch.png" alt="notches">
+        <p>To complete the 2D design I added a little engraving.</p>
+        <img src="./img/fusionEngraving.png" alt="engraving">
+        <p>I ended up opening the dxf file in LibreCAD to layer the engraving. I also changed the engraving a bit.</p>
+        <img src="./img/libre.png" alt="LibreCAD">
+    </div>
+    <div class="card">
+        <h1>first cutting attempt</h1>
+        <p>After finishing up the design I asked for a 510mm x 140mm piece of 3mm thick wood.</p>
+        <p>I opened up the dxf file in VisiCut and used these settings which Marcel and Ömer recommended to me: Power 90, Speed 30 and Frequency 50.</p>
+        <p>Then I went to the laser cutter, adjusted the xy positions, focus and started the job.</p>
+        <img src="./img/laserCut.gif" alt="Laser cutter in action">
+        <p>This first run made me reaize some things:</p>
+        <img src="./img/cut1.jpg" alt="first cut attemt">
+        <ul>
+            <li>I made the top part the wrong length.</li>
+            <li>I made the back part the wrong height</li>
+            <li>I didn't take the kerf into account which means the notches are not tight enough to fit together...</li>
+            <li>For some reason the text is much smaller in real life compared to LibreCAD</li>
+            <li>One side part has to be mirrored for the text to appear at the end</li>
+        </ul>
+    </div>
+    <div class="card">
+        <h1>Second Try</h1>
+        <p>I figured the length of the top part was probably wrong because of the notches. I measured again and it came out at about 197.9 mm.</p>
+        <p>I trimmed the top and the back part and they should fit now.</p>
+        <p>To compensate for kerf you need to follow some steps in Fusion 360.</p>
+        <ul>
+            <li>Set the Workspace to CAM.</li>
+            <li>Click on Cutting and select a Tool.</li>
+            <li>In the "Select Tool" window.</li>
+            <li>Select Cutting as Operation.</li>
+            <li>Select only Laser Cutter as Type.</li>
+            <li>In the "Libraries" list select "All" and then scroll down to "Samples/Sample Profile Tools (Metric) and double click 0.4mm laser cutter.</li>
+            <li>Then click on "Select..." again and edit the tool by right clicking.</li>
+            <li>Go to the tab "Cutter" and change the kerf width to something like 0,15 - 0,2mm, then click ok.</li>
+            <li>In the "2D Profile" window open the second tab and select the contours of your sketch. (Note: The direction of the arrows that appear is important.)</li>
+            <li>Then go to the fourth tab and change "Compensation Type" to "In computer".</li>
+            <li>Press "OK".</li>
+            <li>Then, after it finished calculating you can press the post processing button.</li>
+            <li>Before continuing you need to download a special file from the <a href="https://cam.autodesk.com/hsmposts?">Autodesk HSM Website</a>. Search for DXF and download AutoCAD DXF.</li>
+            <li>Then inside the Post Process folder select the folder with the file. Be sure to set the "Unit" to "Millimeter".</li>
+            <li>Press "Post" and then you can save your dxf file.</li>
+            <li>After that, open up the dxf file in LibreCAD and delete the extra paths that are added.</li>
+        </ul>
+        <p>For a more detailed description of this process go to the Documentation of <a href="http://10.2.16.26/fundamentals/2017/Ole.Langenbach/HTML-Files/WeekThreeLaserCut.html">Ole Langenbach</a>.</p>
+        <p>After a cutting the new design I had good and bad news.<br>
+        The good news was, that the pieces now were the right size.</p>
+        <img src="./img/cut2.png" alt="second cut attempt">
+        <p>The bad news was that the kerf adjustment wasn't right for some reason, which means that the parts don't hold together on their own.</p>
+        <p>I opened up the dxf file in LibreCAD to measure the notches.</p>
+        <img src="./img/libreMeasure.png" alt="Measurements">
+        <p>It turns out, that the notches of the top and backside are 0.2mm bigger and the notches on the side parts 0.2mm smaller... So, something must have gone wrong in the Fusion 360 export. The good thing is, that I dont need to cut the top and back part again, just the sides.</p>
+        <p>After trying a couple of settings in the 2D Profile menu and it not helping, I finally figured out that the issue was these little arrows.</p>
+        <img src="./img/fusionArrows.png" alt="Arrows">
+        <p>These arrows decide in which way the export compensates for the kerf. I had it set to the wrong side so thats why in the export those notches were 0.2mm smaller.</p>
+        <p>After exporting only the sides and cutting them I could finally assemble the kicker. 0.2mm might have been a bit too much but I just used some brute force to fit the parts together.</p>
+    </div>
+    <div class="card">
+        <h1>Engraving</h1>
+        <p>For the second try I completely left out the engraving because I decided the text wasn't working correctly since every program interprets them differently for some reason.</p>
+        <p>I thought about engraving a pattern into every piece so I went to thepatternlibrary.com and picked out <a href="http://thepatternlibrary.com/#fancy-pants">this pattern</a>. I Inverted the pattern in Photoshop and did a test run for engraving</p>
+        <img src="./fancy-pants_i.png" alt="Inverted Pattern">
+        <img src="./img/patternCut.jpg" alt="Engraving of the Pattern">
+        <p>I really liked how it looked but it took about 2 minutes to do this little patch. VisiCut calculated, that a patter of the size of all parts would take about 1h30. I decided that it's probably not worth it.</p>
+        <p>Then, I started to work on a custom engraving that I could theoretically put anywhere. I found an old logo I made for a graphics design course last year and wanted to base my engraving on that. I put the URL to the Gitlab page under my logo and saved it as an svg.</p>
+        <img src="./img/logo.png" alt="Engraving Logo">
+        <p>Then I did some test engravings to find the right settings.</p>
+        <img src="./img/logoEngraved.jpg" alt="Test Engraving">
+        <p>The optimal settings ended up being a power of 40 and speed of 40.</p>
+        <p>All I had to do now was to disassemble my kicker and engrave the parts. I measured where exactly the laser xy had to be and marked it with a pencil.</p>
+        <img src="./img/marks.jpg" alt="Markings for my logo">
+        <p>And this is how it looks after engraving the parts. This is my finished, assembled project.</p>
+        <img src="./img/finishedPortrait.jpg" alt="Finished Project">
+        <br>
+        <img src="./img/finished.gif" alt="Finished Project as a GIF">
+    </div>
+
+    <div class="card">
+        <h1>Downloads</h1>
+        <a href="./kicker.dxf" class="centered"><h1><i class="material-icons">cloud_download</i> Download kicker.dxf</h1></a>
+        <a href="./logo.svg" class="centered"><h1><i class="material-icons">cloud_download</i> Download logo.svg</h1></a>
+    </div>
+    <div>
+        <a href="../index.html" id="back"><i class="material-icons">arrow_back</i>back to index</a>
+    </div>
+</body>
+</html>

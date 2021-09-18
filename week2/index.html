@@ -1,0 +1,89 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FODF Week Two</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div id="title">Week 2: 2D and 3D Design</div>
+    <div class="card">
+        <h1>2D Design</h1>
+        <p>
+            So this week, we got an introduction into LibreCAD and Fusion 360. The Assignment was to make a 2D and a 3D Design of a possible final project.
+        </p>
+        <p>
+            To start with the 2D project, I decided to create a little mini picnic table for fingerboarding. As a model, I decided to use <a href="https://www.blackriver-shop.com/blackriver-ramps-table.html">this blackriver-ramps Table</a>.
+        </p>
+        <p>
+            It started, by creating the base piece in LibreCAD. I converted the length, width and height and rounded them. I went with a length of 30cm, a width of 16cm and a height of 8cm. Then I decided that the table should be twice the width of the banks.         
+        </p>
+        <img src="./img/libreBase.png" alt="base piece">
+        <p>
+            Next, I created the top pieces and thought added notches so the pieces could snap together. To add notches I used the tim tool.
+        </p>
+        <img src="./img/libreBank1.png" alt="bank piece">
+        <p>
+            Using the mirror tool, I created the second bank piece, while keeping the original.
+        </p>
+        <img src="./img/libreMirror.png" alt="bank piece, mirrored">
+        <p>Then I drew the top, main table part.</p>
+        <img src="./img/libreTop.png" alt="top piece">
+        <p>Then I drew a hole in the base piece and added a little supporting piece.</p>
+        <img src="./img/libreSupport.png" alt="support piece">
+        <p>To finish, I only needed to duplicate the base piece using the move tool.</p>
+        <img src="./img/libreMove.png" alt="duplicate base piece">
+        <p>I decided to change the place where the top part attach to the base, so it wouldn't be right at the edge. To do that I deleted the notched edges and added holes in the top parts.</p>
+        <img src="./img/libreNewConnector.png" alt="new attachment system">
+        <p>Then, after converting the other pieces I was pretty much done.</p>
+        <img src="./img/libreConverted.png" alt="new attachment system on all parts">
+        <a href="./table.dxf"><h1 class="centered"><i class="material-icons">cloud_download</i> Download table.dxf</h1></a>
+    </div>
+    <div class="card">
+        <h2>3D Design</h2>
+        <p>I wanted to put the table together in 3D so, the next step was to somehow import the file in Fusion 360.</p>
+        <p>To do that, I uploaded the table.dxf to Fusion 360.</p>
+        <img src="./img/fusionUpload.png" alt="upload button">
+        <p>After uplaoding, I could open up the file as a Fusion 360 Project</p>
+        <img src="./img/fusionInitial.png" alt="Initial open">
+        <p>I used the extrusion tool to extrude a 5mm thick piece for every piece.</p>
+        <img src="./img/fusionExtrusion.png" alt="Extrusion">
+        <p>Then, I used the move tool, to fit the pieces together.</p>
+        <img src="./img/fusionAssemble.gif" alt="Gif of me putting the pieces together">
+        <p>I then looked for a tool to round of the edges. The fillet tool was perfect.</p>
+        <p>I rounded of the edges using the fillet tool.</p>
+        <img src="./img/fusionFilletEdge.png" alt="Fillet Tool">
+        <img src="./img/fusionFillet.png" alt="Fillet Tool">
+        <p>To make the bench better for grinding, I wanted to add a metal rail to the top part of the table.</p>
+        <p>I started by creating a new sketch and drawing the outline of the rail.</p>
+        <img src="./img/fusionRailEdge.png" alt="Rail Edge">
+        <p>Then, I extruded it to 300mm with the extrusion tool.</p>
+        <img src="./img/fusionRailExtrude.png" alt="Extrusion of the Rail">
+        <p>After that, I had to move it to the correct position and make a copy for the other side.</p>
+        <p>But I realized I somehow merged almost the whole table.</p>
+        <img src="./img/fusionMergeBug.png" alt="Merge Bug">
+        <p>This is a big problem, since I can't move the rail alone anymore.</p>
+        <p>I went back and tried drawing the rail again, but this time leaving a little space.</p>
+        <img src="./img/fusionNewRail.png" alt="Second Try drawing the rail">
+        <p>Hopefully now, when I extrude the rail It won't somehow merge again.</p>
+        <p>Luckily, this time it worked.</p>
+        <img src="./img/fusionNewRailExtrusion.png" alt="Extrusion of the new Rail">
+        <p>Now back to the move tool.</p>
+        <img src="./img/fusionRailMove.png" alt="Moving the Rail to the correct position">
+        <p>I then used the move tool (checking the "create copy" box) to copy the rail to all edges.</p>
+        <img src="./img/fusionRailsAdd.gif" alt="Adding all Rails">
+        <p>Finally, my table was complete.</p>
+        <img src="./img/fusionSpin.gif" alt="Gif of my table spinning">
+        <a href="./table.f3d"><h1 class="centered"><i class="material-icons">cloud_download</i> Download table.f3d</h1></a>
+    </div>
+    <div>
+        <a href="../index.html" id="back"><i class="material-icons">arrow_back</i>back to index</a>
+    </div>
+</body>
+</html>

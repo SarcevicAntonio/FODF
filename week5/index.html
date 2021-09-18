@@ -1,0 +1,89 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FODF Week Five</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div id="title">Week 5: Electronics Production</div>
+    <div class="card">
+        <h1>Preparing the files</h1>
+        <p>I started by opening the "hello.sch" file in EAGLE. </p>
+        <img src="./img/eagleSwitch.png">
+        <p>Then you press the Switch to Board Button to open the board.</p>
+        <p>Go to Layer Settings and only select the Top and Pads layers.</p>
+        <img src="./img/layerSettings.png">
+        <img src="./img/visibleLayers.png">
+        <p>Then go to File > Export > Image and set a checkbox in monochromatic and the resolution to 1500 dpi. Then save the image.</p>
+        <img src="./img/export.png">
+        <p>Then, I opened the png in Photoshop to crop the excess space.</p>
+        <img src="./img/photoshopCrop.png">
+        <p>Save this as inside.png and then replace the actual circuit part with a white rounded rectangle for the outside.png.</p>
+        <img src="./img/photohospOutside.png">
+        <p>This is used, to cut out the board from the material.</p>
+        <p>To prepare the files for the mill we used <a href="http://fabmodules.org/">fabmodules.org</a> which is a free website made by the MIT.</p>
+        <p>It can generate G-Code for the Roland MDX-40A we have here at the Fablab.</p>
+        <p>Import the inside.png and set the Output to Roland Mill (.rml), also set the process to PCB Traces (1/64).</p>
+        <img src="./img/fmimport.png">
+        <p>Then, at the right hand side, you can set the settings to the ones inside the FabModules_Settings.txt file.</p>
+        <img src="./img/fmSettings1.png">
+        <p>Then press Calculate and save the file.</p>
+        <img src="./img/calc.png">
+        <p>Repeat the process for the outside file, but use the cutting settings from the .txt.</p>
+        <img src="./img/fmSettings2.png">
+        <img src="./img/calc2.png">
+        <p>Transfer these Files to a USB Stick for use at the Roland Mill.</p>
+    </div>
+    <div class="card">
+        <h1>Milling</h1>
+        <p>Milling is pretty simple if you know what to do. You pretty much just set X and Y and then set Z using the multimeter to check if it connects to the board.</p>
+        <p>First, you engrave the inside.png and then, change the drill bit to cut with the outside.png. Be sure to use the vacuum cleaner to clean up the dust particles.</p>
+        <img src="./img/milling.gif">
+        <p>The next step is to drill the holes in the board.</p>
+        <img src="./img/holes.jpg">
+    </div>
+    <div class="card">
+        <h1>Soldering</h1>
+        <p>Now the fun begins. It was the first time i soldered so it was hard at first but you get the hang of it rather quick.</p>
+        <p>I stared with the microcontroller, because if you mess this one up you can throw away the entire board.</p>
+        <p>I put a glob of solder on one side to hold the microcontroller in place.</p>
+        <img src="./img/sMicro.jpg">
+        <p>The key is, to heat up both elements and then put the solder on. If you use too much solder you can use the (forgot how its called) to take the excess solder away by heating it up again.</p>
+        <p>Be sure to use the mutlimeter to test the connections!</p>
+        <p>Just follow the template step by step...</p>
+        <img src="./img/eagle_pinout.jpeg">
+        <img src="./img/sBoard.jpg">
+        <p>This is how the finished board looks like!</p>
+    </div>
+    <div class="card">
+        <h1>Programming</h1>
+        <p>To start programming our board we need an Arduino to write the code onto the microcontroller.</p>
+        <p>After selecting the right port and the arduino uno board under the tools you can open up the arduino as isp sketch under file > examples. Upload this sketch to the arduino.</p>
+        <p>Connect the board using this schematic as a guide.</p>
+        <img src="./img/arduino_connection.png">
+        <img src="./img/aConnect.jpg">
+        <p>Select the right specs for the board: attiny25/45/85, attiny45, internal 8mhz and select the arduino as isp programmer.</p>
+        <p>Next click tools > burn bootloader to make the board ready for programming.</p>
+        <p>Then just use the example blinking LED code and upload it to the board.</p>
+        <img src="./img/blink.gif">
+    </div>
+    <div class="card">
+        
+        <h1>Downloads</h1>
+        <a href="./inside.png" class="centered"><h1><i class="material-icons">cloud_download</i> Download inside.png</h1></a>
+        <a href="./inside.rml" class="centered"><h1><i class="material-icons">cloud_download</i> Download inside.rml</h1></a>
+        <a href="./outside.png" class="centered"><h1><i class="material-icons">cloud_download</i> Download outside.png</h1></a>
+        <a href="./outside.rml" class="centered"><h1><i class="material-icons">cloud_download</i> Download outside.rml</h1></a>
+    </div>
+    <div>
+        <a href="../index.html" id="back"><i class="material-icons">arrow_back</i>back to index</a>
+    </div>
+</body>
+</html>

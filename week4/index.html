@@ -1,0 +1,75 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FODF Week Four</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div id="title">Week 4: 3D Printing</div>
+    <div class="card">
+        <h1>3D Design</h1>
+        <p>I wanted to create a phone stand for my smartphone</p>
+        <p>First, I created the base and extruded it into a box.</p>
+        <img src="./img/fusionBox.png" alt="Box">
+        <p>Then, I carved out a slanted part for the phone to sit in and added small parts to the side.</p>
+        <img src="./img/fusionSlant.png" alt="slanted">
+        <p>After that, I hollowed out the box from the bottom.</p>
+        <img src="./img/fusionHollow.png" alt="hollow">
+        <p>Then, I added a hole for the USB-C cable.</p>
+        <img src="./img/fusionHole.png" alt="hole">
+        <p>I added a hole for the cable to exit the box.</p>
+        <img src="./img/fusionCableHole.png" alt="cable hole">
+        <p>Then, I added some campferd edges.</p>
+        <img src="./img/fusionCampfer.png" alt="edges">
+    </div>
+    <div class="card">
+        <h1>Cura</h1>
+        <p>On the first start of Cura you have to select the correct Printer. I selected "Ultimaker 2+".</p>
+        <p>After loading the model in Cura, I saw that it was not aligned optimally, so I turned it around 90°.</p>
+        <img src="./img/curaLoad.png" alt="inital load">
+        <img src="./img/curaRotate.png" alt="after rotation">
+        <p>Then I set the Material to PLA and set the nozzle to 0,6mm.</p>
+        <img src="./img/curaNozzle.png" alt="pla / nozzle">
+        <p>I set the Layer height to 0,3mm, because  Mr.Ingrassia told us it should be about half of the nozzle size. The initial Layer height should be a bit thicker so I set it to 0,4mm.</p>
+        <p>For Wall thickness I selected 1,2mm, and for Wall Line count 2.</p>
+        <p>I set the Infill Density to 10% to make the print job faster.</p>
+        <p>I enabled supports everywhere with a Overhang angle of 50° and the Zig Zag pattern</p>
+        <p>Lastly, I added a brim with a width of 8mm.</p>
+        <img src="./img/gif.gif" alt="The layers">
+        <p>The print will take 3h. Then I exported the .gcode-file to a SD Card and started the print job at using the Ultimaker 2+.</p>
+    </div>
+    <div class="card">
+        <h1>First Attempt</h1>
+        <p>After letting the printer print the first layer it was obvious something was wrong.</p>
+        <img src="./img/printFail.jpg" alt="first fail">
+        <p>I asked Mr. Ingrassia and he said, that a larger brim and slower speed should help. I adjusted the settings in cura and tried again.</p>
+        <img src="./img/printBetter.jpg" alt="better">
+        <p>This looked a lot better. The thing was, I didn't have 3h to spare so I exported the .gcode again but scaled it down by 50%. The print now should take less than 1h.</p>
+        <img src="./img/print.gif" alt="smaller print in progress">
+        <p>I took the time it was printing to start my documentation.</p>
+        <img src="./img/printFirst.jpg" alt="first print">
+        <p>This was the finished print. It looks okay but there is one problem. Mr. Ingrassia pointed out the fact, that it would probably topple over when it held a phone, so I needed to change the design for it to make sense.</p>
+    </div>
+    <div class="card">
+        <h1>Second Design</h1>
+        <p>To make it not fall over when putting in a phone, I had to make it longer, so it would be sturdier.</p>
+        <p>This is what I ended up with.</p>
+        <img src="./img/fusion2ndDesign.gif" alt="second design">
+        <p>Printing it again would take a lot of time that I don't have this week, so It will remain a 3D Design for the time being.</p>
+    </div>
+    <div class="card">
+        <h1>Downloads</h1>
+        <a href="./stand.stl" class="centered"><h1><i class="material-icons">cloud_download</i> Download stand.stl</h1></a>
+    </div>
+    <div>
+        <a href="../index.html" id="back"><i class="material-icons">arrow_back</i>back to index</a>
+    </div>
+</body>
+</html>

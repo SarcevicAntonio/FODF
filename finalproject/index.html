@@ -1,0 +1,348 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FODF Final Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <style>
+      video {
+        max-width: 100%;
+      }
+    </style>
+</head>
+<body>
+    <div id="title">Final Project</div>
+    <img class="cimg" src="./img/logo.png">
+    <div class="card">
+        <h1>Thinking of Ideas</h1>
+        <p>Figuring out what to do for my final project was very hard for me. I wasn't sure what I was capable of and what the Fablab allowed me to accomplish.</p>
+        <p>Here are some ideas I put in my Google Keep from time to time:</p>
+        <ul>
+            <li><a href="https://www.youtube.com/watch?v=6mXM-oGggrM">The 3D LED Cube</a> looks pretty cool but has no real function so I scrapped that idea.</li>
+            <li><a href="https://i.ytimg.com/vi/uiKsiMZTlt8/maxresdefault.jpg">A Nixie Tube Clock</a> looks super awesome, but the nixie tubes are pretty expensive sadly.</li>
+            <li>The Idea of a Jukebox that actually mechanically grabs CDs from a holder and puts them on a CD-Reader sounds cool to me but I don't think that I could have ever make something like this in the busy semester I had.</li>
+            <li>The Idea of a 8x8 Pixel Matrix stuck around for a little longer, I even laser cut a holder for the 8x8 Matrix from Sparkfun. The thing is that Mr. Ingrassia advised against the SD card reader since it and the LED Matrix both use SPI and that would get too complicated. I then tried to think of different input devices to use but it really doesn't make sense without the SD card reader in my mind.</li>
+            <li>Finally I got the idea of a drawer alarm.</li>
+        </ul>
+        <p>I'm thinking of a box with a button, speaker and a distance sensor. When you press the button it sets the distance and if the distance gets further than is set the speaker will play a loud tone. You can put this device in a drawer and set the distance using the button, so when someone snoops around in your room and opens the drawer the distance sensor will notice the change and an alarm will go of.</p>
+        <p>This Idea has several advantages. I can use my modified hello board to test and write software since it has enough pins for all these devices. It also has the advantage of being actually useful as a product.</p>
+    </div>
+    <div class="card">
+        <h1>Writing some code to test the idea</h1>
+        <p>A few days after thinking of the idea I grabbed all the parts and tested them all individually.</p>
+        <p>After verifying that they all work I wrote this program:</p>
+        <pre class="prettyprint">finalProject.ino
+                // Pocket Alarm v0.1
+                // Written by Antonio Sarcevic
+                // WTFPL License
+                
+                // Pins
+                int trigger = 4;
+                int echo    = 2;
+                int speaker = 0;
+                int button  = 1;
+                
+                // Variables
+                long duration = 0;
+                long distance = 0;
+                long setDistance = 0;
+                
+                void setup() {
+                  // Pin Modes
+                  pinMode(trigger, OUTPUT);
+                  pinMode(echo, INPUT);
+                  pinMode(button, INPUT);
+                }
+                
+                void loop() {
+                  // Send out a ultra sonic wave and read the duration
+                  digitalWrite(trigger, LOW);
+                  delay(5); 
+                  digitalWrite(trigger, HIGH);
+                  delay(10);
+                  digitalWrite(trigger, LOW);
+                  duration = pulseIn(echo, HIGH);
+                  // Calculate Distance
+                  distance = (duration/2) * 0.03432;
+                
+                  if(distance >= 500 || distance &lt;= 0){
+                    tone(speaker, 31);
+                  }
+                  
+                  if(digitalRead(button) == LOW){
+                    setDistance = distance;
+                    tone(speaker, 2637, 83);
+                  }
+                
+                  if((distance >= setDistance+10) && (setDistance != 0)){
+                    tone(speaker, 4000);
+                  }else{
+                    noTone(speaker);
+                  }
+                  delay(1000); 
+                }
+        </pre>
+        <p>Note: This code still lacks the correct function of the button. I need to put in a delay for the button so that when you press it you can close the drawer properly.</p>
+        <p>I tested it using my hand to simulate different distances. And it works very well: pressing the button sets the desired distance. After leaving the button and rasing my hand it plays a tone!</p>
+        <p>Go get the speaker to work with tone() I used this <a href="https://github.com/SpenceKonde/ATTinyCore">core</a> and I described how I got it to work in my <a href="../week9/">Week 9 Documentation</a>.</p>
+        <p>I used the <a href="https://zellepj.gitlab.io/philipp.zelle/week9.html">Week 9 Documentation of Philipp Zelle</a> as a reference to get the distance sensor to work. </p>
+    </div>
+    <div class="card">
+        <h1>Project cost</h1>
+        <p>For the project I need the following parts:</p>
+        <ul>
+            <li>PCB / AtTiny45: 0,91€</li>
+            <li>Distance Sensor / HC-SR04: 0,89€</li>
+            <li>Speaker / GC0351NX: (did not find a price online)</li>
+            <li>Button / 125V3A: 0,25€</li>
+            <li>9V Battery: 0,15€</li>
+            <li>9V Battery Holder: 1,30€</li>
+        </ul>
+        <p>So all together with 3D print and Laser Cut MDF I would say it comes round at about 4-5€.</p>
+    </div>
+    <div class="card">
+        <h1>Designing a minimal board</h1>
+        <p>I decided to use the ATTiny45 again. I don't require any Serial and have bought myself an ELEGOO UNO R3 board to program at home. I also have experience with the ATTiny45 so it just felt right.</p>
+        <p>I noted what Pins are going to used for what and how many GND and VCCs im going to need.</p>
+        <pre class="prettyprint">
+                ATtiny45:
+                6 programmable Pins:
+                    - 0 / MOSI  -> Speaker
+                    - 1 / MISO  -> Button
+                    - 2 / SCK   -> Echo
+                    - 4         -> Trigger
+                    - 3         
+                    - 5
+            
+                GND x3
+                VCC x3
+            
+            Distance Sensor:
+                4 Pins:
+                    - Trigger 	-> 4
+                    - Echo 	-> 2
+                    - VCC
+                    - GND
+            Speaker:
+                2 Pins:
+                    - Output    -> 0
+                    - GND
+            Button:
+                2 Pins:
+                    - VCC
+                    - GND
+                    + Input w/Resistor     -> 1
+                    
+            
+            Battery:
+                2 Pins:
+                    - VCC 
+                    - GND 
+                    + Voltage Regulator
+        </pre>
+        <p>I went and opened the hello board and saved it as a seperate project.</p>
+        <p>First I got rid of the LED since I didn't need it.</p>
+        <p>Then I added fitting pins for every component. 4 pins for the distance sensor, 2 pins for the speaker, 2 pins and a resistor for the button and two pins for the battery with fitting pins for the voltage regulator.</p>
+        <p>I connected the pin headers to the right pin from the ATTiny45. I also added a pin header for the leftover pin and the reset pin.</p>
+        <p>This is the schematic I ended up with:</p>
+        <img src="./img/schematic.png">
+        <p>After being done with the schematic I went ahead and started designing the board.</p>
+        <p>After 2 attempts I ended up with this small, minimal board:</p>
+        <img src="./img/Pin Out.png">
+        <p>For a more detailed description on how the process of how electronics design works look into my <a href="../week6/">Week 6 documentation</a>.</p>
+    </div>
+    <div class="card">
+        <h1>Producing the Board</h1>
+        <p>Milling the board was a big hassle.</p>
+        <p>I never had a problem with the CNC machine in the past but this time it was not really doing what I wanted it to. I hat to do about 6 or 7 runs for the board to be optimal and at the end I even cut into the board because I went too deep with the outside.rml.</p>
+        <img src="./img/deepcuts.jpg">
+        <p>But thank god I didn't mill through any traces.</p>
+        <p>After cutting through the holes for the pin headers, I went ahead and got a part list from eagle and soldered all the parts onto the board.</p>
+        <img src="./img/milled board.jpg">
+        <p>Soldering went surprisingly fast but I guess you get the hang of it after doing it a couple of times.</p>
+        <p>For a more detailed description on how the process of how electronics production works look into my <a href="../week5/">Week 5 documentation</a>.</p>
+    </div>
+    <div class="card">
+        <h1>Designing the case</h1>
+        <p>I wanted to 3D print a case and laser cut out a top and bottom part for it.</p>
+        <p>I started by approximately 3D modeling all the components of my project in Eagle and then starting to design a case around it.</p>
+        <p>The speaker and the button will be mounted in the walls of the case.</p>
+        <p>At the end I added 3mm notches for the laster cut top and bottom of my case.</p>
+        <p>Here is a GIF of my process:</p>
+        <img src="./img/fusionprocess.gif">
+        <p>And here is my 3D case model:</p>
+        <img src="./img/case3d.gif">
+        <p>I exported the sketch I used to draw the notches with and edited in LibreCAD.</p>
+        <img src="./img/case2d.png">
+        <p>For a more detailed description on how the process of how 2D and 3D design works look into my <a href="../week2/">Week 2 documentation</a>.</p>
+    </div>
+    <div class="card">
+        <h1>Printing and cutting the case</h1>
+        <p>I exported the case model as an STL from Fusion and opened it in Cura to generate the gcode.</p>
+        <p>The print is going to take about 10h.</p>
+        <img src="./img/3dprint.gif">
+        <p>In the mean time i decided to cut the top and bottom parts.</p>
+        <p>I found some 3mm white MDF to cut the top and bottom into and started the job at the small laser cutter.</p>
+        <p>The next day I got into the lab, cleaned up my 3D print and was surprised how well the parts fit together!</p>
+        <img src="./img/fitting.jpg">
+        <p>For a more detailed description on how the process of how to laser cut and 3d print works look into my <a href="../week3/">Week 3</a>  and <a href="../week4/">Week 4</a> documentation respectively.</p>
+    </div>
+    <div class="card">
+        <h1>Finalizing the code</h1>
+        <p>The code still needs to be worked on. I need to create functions for reading the distance and also for setting the specified distance.</p>
+        <pre class="prettyprint">final_Software.ino
+            // Pocket Alarm v0.3
+            // Written by Antonio Sarcevic
+            // WTFPL License
+            
+            //Pins and Variables
+            int trigger = 4;
+            int echo    = 2;
+            int speaker = 0;
+            int button  = 1;
+            
+            long alarmDistance = 0;
+            
+            void setup() {
+              // Pin Modes
+              pinMode(trigger, OUTPUT);
+              pinMode(echo, INPUT);
+              pinMode(button, INPUT);
+            }
+            
+            void loop(){
+              // get current distance from distance sensor and save it as a variable
+              long currentDistance = getDistance();
+            
+              // if button is pressed
+              if(digitalRead(button) == HIGH){
+                // go to the set distance sequence
+                setDistance();
+              }
+            
+              // check distance 
+              if((currentDistance >= alarmDistance + 10) && (alarmDistance != 0)){
+                //play alarm if distance is further then set. (+10 to be a bit forgiving to the sensor)
+                 tone(speaker, 4186);
+                 delay(500);
+                 tone(speaker, 2093);
+              }else{
+                noTone(speaker);
+              }
+            
+            
+              delay(500);
+            }
+            
+            // measure the distance from the distance sensor
+            long getDistance(){
+              digitalWrite(trigger, LOW);
+              delay(5);
+              digitalWrite(trigger, HIGH);
+              delay(10);
+              digitalWrite(trigger, LOW);
+              long duration = pulseIn(echo, HIGH);
+              long distance = (duration/2) * 0.03432;
+            }
+            
+            // set the distance to be compared
+            void setDistance(){
+              if(alarmDistance == 0){
+                tone(speaker, 1047);
+                delay(100);
+                noTone(speaker);
+                delay(900);
+                tone(speaker, 1047);
+                delay(100);
+                noTone(speaker);
+                delay(900);
+                tone(speaker, 1047);
+                delay(100);
+                noTone(speaker);
+                delay(900);
+                tone(speaker, 1047);
+                delay(100);
+                noTone(speaker);
+                delay(900);
+                alarmDistance = getDistance();
+                tone(speaker, 1109);
+                delay(200);
+                noTone(speaker);
+              }else{
+               alarmDistance = 0; 
+              }
+            }
+                
+        </pre>
+        <p>To make connecting the board easier I made this graphic to show the connection:</p>
+        <img src="./img/arduino_connection.png">
+        <p>After I flashed this new code to the board, I was ready to finish up my project.</p>
+    </div>
+    <div class="card">
+        <h1>Assembling the project</h1>
+        <p>To connect the board to my parts I created this graphic to show how to connect everything:</p>
+        <img src="./img/partconnection.png">
+        <p>To finish up the project, I soldered wires to the button and speaker and taped them up, then I put them in their respective holes.</p>
+        <p>I also soldered female headers to the 9V Battery holder.</p>
+        <img src="./img/assemble1.jpg">
+        <p>Then I taped the distance sensor to the top part and taped the board to the bottom part.</p>
+        <img src="./img/assemble2.jpg">
+        <p>And voila: my Final Project is complete!</p>
+    </div>
+    <div class="card">
+        <h1>Presentation of the final project</h1>
+        <p>First, here are some images of my project:</p>
+        <img src="./img/fin1.jpg">
+        <img src="./img/fin2.jpg">
+        <img src="./img/fin3.jpg">
+        <img src="./img/fin4.jpg">
+        <p>And here is my presentation video for the final project:</p>
+        <video src="./FODF Final Video.mp4" controls></video>
+        <!-- <div style="width:100%;height:0px;position:relative;padding-bottom:56.250%;"><iframe src="https://streamable.com/s/dqqyo/yleiom" frameborder="0" width="100%" height="100%" allowfullscreen style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden;"></iframe></div> -->
+    </div>
+    <div class="card">        
+        <h1>Downloads</h1>
+        <a href="./files/Case.stl" class="centered"><h1><i class="material-icons">cloud_download</i> Download Case.stl</h1></a>
+        <a href="./files/Case_Top_Bottom.dxf" class="centered"><h1><i class="material-icons">cloud_download</i> Download Case_Top_Bottom.dxf</h1></a>
+        <a href="./files/PCB.zip" class="centered"><h1><i class="material-icons">cloud_download</i> Download PCB.zip (Eagle Files, Images and .rml files)</h1></a>
+        <a href="./files/final_Software.ino" class="centered"><h1><i class="material-icons">cloud_download</i> Download final_Software.ino</h1></a>
+    </div>
+    <div class="card">
+        <h1>License</h1>
+        <p>I chose the WTFPL as a license for my project.</p>
+        <pre>
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
+            Version 2, December 2004 
+
+            Copyright (C) 2004 Sam Hocevar &lt;sam@hocevar.net> 
+
+            Everyone is permitted to copy and distribute verbatim or modified 
+            copies of this license document, and changing it is allowed as long 
+            as the name is changed. 
+
+                    DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
+            TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
+
+            0. You just DO WHAT THE FUCK YOU WANT TO.
+        </pre>
+        <a href="http://www.wtfpl.net/"><img
+            src="http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png"
+            width="80" height="15" alt="WTFPL" /></a>
+        <p>I chose this license because I found it funny but mostly because I think that anybody should be able to do whatever they want with the stuff I made.</p>
+    </div>
+    <div class="card">
+        <h1>Impact</h1>
+        <p>I did not intend to change the world with this project. This project was chosen because it was something I could do properly in my busiest semester yet. I hope this project shows that I understood the different digital fabrication techniques and how I could put them together to create something unique.</p>
+    </div>
+    <div>
+        <a href="../index.html" id="back"><i class="material-icons">arrow_back</i>back to index</a>
+    </div>
+</body>
+</html>
